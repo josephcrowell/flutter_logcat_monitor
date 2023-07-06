@@ -1,7 +1,10 @@
-group 'com.example.logcat_monitor'
+def args = ["-Xlint:deprecation"]
+
+group 'com.josephcrowell.logcat_monitor'
 version '1.0'
 
 buildscript {
+    ext.kotlin_version = '1.8.20'
     repositories {
         google()
         mavenCentral()
@@ -9,6 +12,7 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:8.0.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -20,12 +24,16 @@ rootProject.allprojects {
 }
 
 apply plugin: 'com.android.library'
-
+apply plugin: 'kotlin-android'
 android {
-    compileSdkVersion 29
+    compileSdkVersion 34
 
     if (project.android.hasProperty("namespace")) {
-        namespace 'com.example.logcat_monitor'
+        namespace 'com.josephcrowell.logcat_monitor'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 
     defaultConfig {
@@ -34,4 +42,29 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled = false
+            manifestPlaceholders = [enableCrashReporting: "false"]
+        }
+        release {
+            minifyEnabled true
+            manifestPlaceholders = [enableCrashReporting: "true"]
+        }
+    }
+}
+
+dependencies {
+    implementation "androidx.core:core-ktx:1.10.1"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }

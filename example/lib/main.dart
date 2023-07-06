@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> initPlatformState() async {
     try {
+      debugPrint('Attempting to add listen Stream of log.');
       LogcatMonitor.addListen(_listenStream);
     } on PlatformException {
       debugPrint('Failed to listen Stream of log.');
@@ -53,36 +54,35 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Text("Logcat log:"),
+            Padding(
+              padding: EdgeInsets.all(4),
+              child: Text("Logcat log:"),
+            ),
             logBoxBuild(context),
-            Column(
-              children: [
-                RadioListTile(
-                  title: Text("logcat filter: *.*"),
-                  value: 0,
-                  groupValue: _groupValue,
-                  onChanged: (int? value) async {
-                    setState(() {
-                      _groupValue = value!;
-                      _logBuffer.clear();
-                    });
-                    await LogcatMonitor.startMonitor("*.*");
-                  },
-                ),
-                RadioListTile(
-                  title: Text("logcat filter: flutter,LogcatMonPlugin,S:*"),
-                  value: 1,
-                  groupValue: _groupValue,
-                  onChanged: (int? value) async {
-                    setState(() {
-                      _groupValue = value!;
-                      _logBuffer.clear();
-                    });
-                    await LogcatMonitor.startMonitor(
-                        "flutter:*,LogcatMonPlugin:*,*:S");
-                  },
-                ),
-              ],
+            RadioListTile(
+              title: Text("logcat filter: *.*"),
+              value: 0,
+              groupValue: _groupValue,
+              onChanged: (int? value) async {
+                setState(() {
+                  _groupValue = value!;
+                  _logBuffer.clear();
+                });
+                await LogcatMonitor.startMonitor("*.*");
+              },
+            ),
+            RadioListTile(
+              title: Text("logcat filter: flutter,LogcatMonPlugin,S:*"),
+              value: 1,
+              groupValue: _groupValue,
+              onChanged: (int? value) async {
+                setState(() {
+                  _groupValue = value!;
+                  _logBuffer.clear();
+                });
+                await LogcatMonitor.startMonitor(
+                    "flutter:*,LogcatMonPlugin:*,*:S");
+              },
             ),
             TextButton(
               child: Text("call debugPrint on flutter"),
@@ -108,28 +108,25 @@ class _MyAppState extends State<MyApp> {
 
   Widget logBoxBuild(BuildContext context) {
     return Expanded(
-      child: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.black,
-            border: Border.all(
-              color: Colors.blueAccent,
-              width: 1.0,
-            ),
+      child: Container(
+        alignment: AlignmentDirectional.topStart,
+        decoration: BoxDecoration(
+          color: Colors.black,
+          border: Border.all(
+            color: Colors.blueAccent,
+            width: 1.0,
           ),
-          child: Scrollbar(
-            thickness: 10,
-            radius: Radius.circular(20),
-            child: SingleChildScrollView(
-              reverse: true,
-              scrollDirection: Axis.vertical,
-              child: Text(
-                _logBuffer.toString(),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.0,
-                ),
-              ),
+        ),
+        child: SingleChildScrollView(
+          reverse: true,
+          scrollDirection: Axis.vertical,
+          child: Text(
+            _logBuffer.toString(),
+            textDirection: TextDirection.ltr,
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14.0,
             ),
           ),
         ),

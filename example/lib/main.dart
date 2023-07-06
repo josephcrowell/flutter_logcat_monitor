@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:logcat_monitor/logcat_monitor.dart';
+import 'package:flutter_logcat_monitor/flutter_logcat_monitor.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,11 +26,11 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPlatformState() async {
     try {
       debugPrint('Attempting to add listen Stream of log.');
-      LogcatMonitor.addListen(_listenStream);
+      FlutterLogcatMonitor.addListen(_listenStream);
     } on PlatformException {
       debugPrint('Failed to listen Stream of log.');
     }
-    await LogcatMonitor.startMonitor("*.*");
+    await FlutterLogcatMonitor.startMonitor("*.*");
   }
 
   void _listenStream(dynamic value) {
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Logcat Monitor example app'),
+          title: const Text('Flutter Logcat Monitor Example App'),
         ),
         body: Column(
           children: [
@@ -68,11 +68,12 @@ class _MyAppState extends State<MyApp> {
                   _groupValue = value!;
                   _logBuffer.clear();
                 });
-                await LogcatMonitor.startMonitor("*.*");
+                await FlutterLogcatMonitor.startMonitor("*.*");
               },
             ),
             RadioListTile(
-              title: Text("logcat filter: flutter,LogcatMonPlugin,S:*"),
+              title:
+                  Text("logcat filter: flutter,FlutterLogcatMonitorPlugin,S:*"),
               value: 1,
               groupValue: _groupValue,
               onChanged: (int? value) async {
@@ -80,8 +81,8 @@ class _MyAppState extends State<MyApp> {
                   _groupValue = value!;
                   _logBuffer.clear();
                 });
-                await LogcatMonitor.startMonitor(
-                    "flutter:*,LogcatMonPlugin:*,*:S");
+                await FlutterLogcatMonitor.startMonitor(
+                    "flutter:*,FlutterLogcatMonitorPlugin:*,*:S");
               },
             ),
             TextButton(
@@ -135,7 +136,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void clearLog() async {
-    LogcatMonitor.clearLogcat;
+    FlutterLogcatMonitor.clearLogcat;
     await Future.delayed(const Duration(milliseconds: 100));
     setState(() {
       _logBuffer.clear();

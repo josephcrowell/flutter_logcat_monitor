@@ -1,4 +1,4 @@
-package com.josephcrowell.logcat_monitor
+package com.josephcrowell.flutter_logcat_monitor
 
 import android.os.Handler
 import android.os.Looper
@@ -15,7 +15,7 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 
-class LogcatMonitorPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler {
+class FlutterLogcatMonitorPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler {
     private val uiThreadHandler = Handler(Looper.getMainLooper())
     private var channel: MethodChannel? = null
     private var eventChannel: EventChannel? = null
@@ -23,15 +23,15 @@ class LogcatMonitorPlugin : FlutterPlugin, MethodCallHandler, EventChannel.Strea
     private var logcatProcess: Process? = null
 
     companion object {
-        private const val TAG_NAME = "LogcatMonPlugin"
+        private const val TAG_NAME = "FlutterLogcatMonitorPlugin"
         private const val sleepIntervalThread: Long = 1000
         private const val sleepTimeThread: Long = 200
     }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPluginBinding) {
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "logcat_monitor/methods")
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "flutter_logcat_monitor/methods")
         channel!!.setMethodCallHandler(this)
-        eventChannel = EventChannel(flutterPluginBinding.binaryMessenger, "logcat_monitor/events")
+        eventChannel = EventChannel(flutterPluginBinding.binaryMessenger, "flutter_logcat_monitor/events")
         eventChannel!!.setStreamHandler(this)
     }
 

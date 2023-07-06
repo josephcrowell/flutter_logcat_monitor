@@ -1,30 +1,30 @@
 
 
 
-<!-- ## Logcat Monitor -->
+<!-- ## Flutter Logcat Monitor -->
 
 
 ```plantuml
 scale 500 width
-rectangle "Logcat Monitor" {
+rectangle "Flutter Logcat Monitor" {
 
 
-package package:logcat_monitor {
+package package:flutter_logcat_monitor {
 
 	component shell {
 		card logcat
 	}
 
-	component LogcatMonitor {
-		card logcat_monitor.dart
+	component FlutterLogcatMonitor {
+		card flutter_logcat_monitor.dart
 	}
 
-	component LogcatMonitorPlugin {
-		card LogcatMonitorPlugin.java
+	component FlutterLogcatMonitorPlugin {
+		card FlutterLogcatMonitorPlugin.kt
 	}
 
-	LogcatMonitorPlugin.java <--> logcat_monitor.dart : event/method channel
-	LogcatMonitorPlugin.java <-> logcat : run\nbackground\n thread
+	FlutterLogcatMonitorPlugin.kt <--> flutter_logcat_monitor.dart : event/method channel
+	FlutterLogcatMonitorPlugin.kt <-> logcat : run\nbackground\n thread
 }
 
 
@@ -34,7 +34,7 @@ package example {
 		card main.dart
 	}
 
-	logcat_monitor.dart <--> main.dart : Stream
+	flutter_logcat_monitor.dart <--> main.dart : Stream
 }
 
 ```

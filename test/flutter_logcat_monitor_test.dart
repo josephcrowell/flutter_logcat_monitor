@@ -1,9 +1,9 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:logcat_monitor/logcat_monitor.dart';
+import 'package:flutter_logcat_monitor/flutter_logcat_monitor.dart';
 
 void main() {
-  const MethodChannel channel = MethodChannel('logcat_monitor/methods');
+  const MethodChannel channel = MethodChannel('flutter_logcat_monitor/methods');
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -29,6 +29,6 @@ void main() {
   });
 
   test('getLogcatDump', () async {
-    expect(await LogcatMonitor.getLogcatDump, 'logcat example');
+    expect(await FlutterLogcatMonitor.getLogcatDump, 'logcat example');
   });
 }

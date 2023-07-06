@@ -1,5 +1,5 @@
-name: logcat_monitor_example
-description: Demonstrates how to use the logcat_monitor plugin.
+name: flutter_logcat_monitor_example
+description: Demonstrates how to use the flutter_logcat_monitor plugin.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -12,9 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  logcat_monitor:
+  flutter_logcat_monitor:
     # When depending on this package from a real application you should use:
-    #   logcat_monitor: ^x.y.z
+    #   flutter_logcat_monitor: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints
     # The example app is bundled with the plugin so we use a path dependency on
     # the parent directory to use the current plugin's version.

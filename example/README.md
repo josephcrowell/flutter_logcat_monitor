@@ -1,6 +1,6 @@
-# logcat_monitor_example
+# flutter_logcat_monitor_example
 
-Demonstrates how to use the logcat_monitor plugin.
+Demonstrates how to use the flutter_logcat_monitor plugin.
 
 ## Getting Started
 

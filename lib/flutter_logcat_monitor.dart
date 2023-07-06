@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-class LogcatMonitor {
+class FlutterLogcatMonitor {
   static const MethodChannel _channel =
-      const MethodChannel('logcat_monitor/methods');
+      const MethodChannel('flutter_logcat_monitor/methods');
   static const EventChannel _stream =
-      const EventChannel('logcat_monitor/events');
+      const EventChannel('flutter_logcat_monitor/events');
   static late StreamSubscription _streamSubscription;
 
   /// Adds a subscription to this stream.

@@ -1,6 +1,6 @@
 def args = ["-Xlint:deprecation"]
 
-group 'com.josephcrowell.logcat_monitor'
+group 'com.josephcrowell.flutter_logcat_monitor'
 version '1.0'
 
 buildscript {
@@ -29,7 +29,7 @@ android {
     compileSdkVersion 34
 
     if (project.android.hasProperty("namespace")) {
-        namespace 'com.josephcrowell.logcat_monitor'
+        namespace 'com.josephcrowell.flutter_logcat_monitor'
     }
 
     sourceSets {

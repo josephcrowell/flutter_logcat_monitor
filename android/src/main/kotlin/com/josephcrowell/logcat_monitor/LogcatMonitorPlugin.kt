@@ -1,6 +1,5 @@
 package com.josephcrowell.logcat_monitor
 
-import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
@@ -22,6 +21,13 @@ class LogcatMonitorPlugin : FlutterPlugin, MethodCallHandler, EventChannel.Strea
     private var eventChannel: EventChannel? = null
     private var eventSink: EventSink? = null
     private var logcatProcess: Process? = null
+
+    companion object {
+        private const val TAG_NAME = "LogcatMonPlugin"
+        private const val sleepIntervalThread: Long = 1000
+        private const val sleepTimeThread: Long = 200
+    }
+
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "logcat_monitor/methods")
         channel!!.setMethodCallHandler(this)
@@ -40,7 +46,9 @@ class LogcatMonitorPlugin : FlutterPlugin, MethodCallHandler, EventChannel.Strea
             "startMonitor" -> {
                 closePrevious()
                 Log.d(TAG_NAME, "run startMonitor()")
-                LogcatMonitorTask(options, logcatProcess!!, uiThreadHandler, eventSink!!).execute()
+                Thread {
+                    logcatMonitor(options)
+                }.start()
                 result.success(true)
             }
 
@@ -85,55 +93,37 @@ class LogcatMonitorPlugin : FlutterPlugin, MethodCallHandler, EventChannel.Strea
         eventChannel!!.setStreamHandler(null)
     }
 
-    override fun onListen(arguments: Any, eventSink: EventSink) {
+    override fun onListen(arguments: Any?, eventSink: EventSink?) {
         this.eventSink = eventSink
     }
 
-    override fun onCancel(arguments: Any) {
+    override fun onCancel(arguments: Any?) {
         eventSink = null
     }
 
-    companion object {
-        private const val TAG_NAME = "LogcatMonPlugin"
-        private const val sleepIntervalThread: Long = 1000
-        private const val sleepTimeThread: Long = 200
+    private fun logcatMonitor(logcatOptions: String) {
+        val logcatCmd = "logcat $logcatOptions"
+        try {
+            Log.d(TAG_NAME, "running command: $logcatCmd")
+            logcatProcess = Runtime.getRuntime().exec(logcatCmd)
+            val bufferedReader = BufferedReader(InputStreamReader(logcatProcess!!.inputStream))
+            var line: String?
+            var startTime = SystemClock.elapsedRealtime()
+            while (bufferedReader.readLine().also { line = it } != null) {
+                val timeInterval = SystemClock.elapsedRealtime() - startTime
+                if (timeInterval > sleepIntervalThread) Thread.sleep(sleepTimeThread)
+                sendEvent(line)
+                startTime = SystemClock.elapsedRealtime()
+            }
+        } catch (e: IOException) {
+            sendEvent("EXCEPTION$e")
+        } catch (e: InterruptedException) {
+            sendEvent("logcatMonitor interrupted")
+        }
+        Log.d(TAG_NAME, "closed command: $logcatCmd")
     }
 
-    private class LogcatMonitorTask(private val logcatOptions: String, private var logcatProcess: Process, private var uiThreadHandler: Handler, private var eventSink: EventSink) : AsyncTask<Void, Void, String>() {
-
-        override fun doInBackground(vararg params: Void): String {
-            logcatMonitor(logcatOptions)
-            return ""
-        }
-
-        override fun onPostExecute(result: String) {
-            super.onPostExecute(result)
-        }
-
-        fun logcatMonitor(logcatOptions: String) {
-            val logcatCmd = "logcat $logcatOptions"
-            try {
-                Log.d(TAG_NAME, "running command: $logcatCmd")
-                logcatProcess = Runtime.getRuntime().exec(logcatCmd)
-                val bufferedReader = BufferedReader(InputStreamReader(logcatProcess.inputStream))
-                var line: String?
-                var startTime = SystemClock.elapsedRealtime()
-                while (bufferedReader.readLine().also { line = it } != null) {
-                    val timeInterval = SystemClock.elapsedRealtime() - startTime
-                    if (timeInterval > sleepIntervalThread) Thread.sleep(sleepTimeThread)
-                    sendEvent(line)
-                    startTime = SystemClock.elapsedRealtime()
-                }
-            } catch (e: IOException) {
-                sendEvent("EXCEPTION$e")
-            } catch (e: InterruptedException) {
-                sendEvent("logcatMonitor interrupted")
-            }
-            Log.d(TAG_NAME, "closed command: $logcatCmd")
-        }
-
-        private fun sendEvent(message: String?) {
-            uiThreadHandler.post { eventSink.success(message) }
-        }
+    private fun sendEvent(message: String?) {
+        uiThreadHandler.post { eventSink?.success(message) }
     }
 }

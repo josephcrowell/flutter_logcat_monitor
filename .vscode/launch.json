@@ -1,14 +1,21 @@
 {
-	// Use IntelliSense to learn about possible attributes.
-	// Hover to view descriptions of existing attributes.
-	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"name": "[Flutter] Example",
-			"request": "launch",
-			"type": "dart",
-			"program": "${workspaceFolder}/example/lib/main.dart",
-		},
-	]
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "[Flutter] Example",
+            "request": "launch",
+            "type": "dart",
+            "program": "${workspaceFolder}/example/lib/main.dart"
+        },
+        {
+            "name": "Flutter (lib\\main.dart)",
+            "type": "dart",
+            "request": "launch",
+            "cwd": "example",
+            "program": "lib\\main.dart"
+        }
+    ]
 }

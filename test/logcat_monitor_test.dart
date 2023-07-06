@@ -12,13 +12,10 @@ void main() {
       switch (methodCall.method) {
         case 'startMonitor':
           return true;
-          break;
         case 'stopMonitor':
           return true;
-          break;
         case 'runLogcat':
           return 'logcat example';
-          break;
         default:
           return 'not implemented';
       }

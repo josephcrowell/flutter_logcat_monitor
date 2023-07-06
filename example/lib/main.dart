@@ -61,9 +61,9 @@ class _MyAppState extends State<MyApp> {
                   title: Text("logcat filter: *.*"),
                   value: 0,
                   groupValue: _groupValue,
-                  onChanged: (value) async {
+                  onChanged: (int? value) async {
                     setState(() {
-                      _groupValue = value;
+                      _groupValue = value!;
                       _logBuffer.clear();
                     });
                     await LogcatMonitor.startMonitor("*.*");
@@ -73,9 +73,9 @@ class _MyAppState extends State<MyApp> {
                   title: Text("logcat filter: flutter,LogcatMonPlugin,S:*"),
                   value: 1,
                   groupValue: _groupValue,
-                  onChanged: (value) async {
+                  onChanged: (int? value) async {
                     setState(() {
-                      _groupValue = value;
+                      _groupValue = value!;
                       _logBuffer.clear();
                     });
                     await LogcatMonitor.startMonitor(

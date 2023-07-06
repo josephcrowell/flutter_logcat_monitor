@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: [
             Text("Logcat log:"),
-            logboxBuild(context),
+            logBoxBuild(context),
             Column(
               children: [
                 RadioListTile(
@@ -106,7 +106,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget logboxBuild(BuildContext context) {
+  Widget logBoxBuild(BuildContext context) {
     return Expanded(
       child: Center(
         child: Container(

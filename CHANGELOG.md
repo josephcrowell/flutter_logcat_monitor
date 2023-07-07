@@ -1,3 +1,10 @@
+## 1.0.0
+
+* Convert to kotlin and a modern threading API
+* Code cleanup
+* Fork and change namespace
+* Update example
+
 ## 0.0.6
 
 * Update documentation

@@ -2,7 +2,7 @@
 
 Flutter plugin to monitor the stream of system messages, stack traces etc using *logcat* command-line tool.
 
-NOTE: This plugin fetches logs only on Android Devices presently.
+NOTE: This plugin fetches logcat logs only on Android Devices.
 
 # how to use
 
@@ -36,9 +36,9 @@ Need permission in AndroidManifest.xml:
 
 # example
 
-Follows a screenshot of example code in [example](https://github.com/josephcrowell/flutter_logcat_monitor/tree/main/example) folder.
+See the example code in [example](https://github.com/josephcrowell/flutter_logcat_monitor/tree/main/example) folder.
 
-Here we use a StringBuffer to store the messages and display them in the log screen.
+Here we use a StringBuffer to store the messages and display them on a log screen.
 
 <p align='center'>
     <img src="https://raw.githubusercontent.com/josephcrowell/flutter_logcat_monitor/main/doc/example1.jpg" />
@@ -57,7 +57,7 @@ The FlutterLogcatMonitorPlugin runs event/method channel handlers in **UI-thread
 
 <a name="logcat_filter"></a>
 
-from `logcat -h`:
+from the [Android Developers logcat documentation](https://developer.android.com/tools/logcat#filteringOutput):
 ```txt
 filterspecs are a series of
   <tag>[:priority]

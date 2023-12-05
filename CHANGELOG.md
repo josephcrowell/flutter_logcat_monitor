@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Package and build system updates
+
 ## 1.0.0
 
 * Convert to kotlin and a modern threading API

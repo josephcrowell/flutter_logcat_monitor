@@ -1,3 +1,9 @@
+# Changelog
+
+## 1.0.2
+
+* Update license
+
 ## 1.0.1
 
 * Package and build system updates
